@@ -1,20 +1,26 @@
 const imgContainer = document.getElementById("movie-list");
+
 const movieInfoContainer = document.getElementById("movie-info");
+
+const detailImage = document.getElementById("detail-image");
+
+const title = document.getElementById("title");
+
+const yearReleased = document.getElementById("year-released");
+
+const description = document.getElementById("description");
+
+const watched = document.getElementById("watched");
 
 const url = " http://localhost:3000/movies";
 
 function renderMovieInfo(movie) {
-    const detailImage = document.getElementById("detail-image");
-    const title = document.getElementById("title");
-    const yearReleased = document.getElementById("year-released");
-    const description = document.getElementById("description");
-    const watched = document.getElementById("watched");
 
     detailImage.src = movie.image;
-    title.innerText = movie.title;
-    yearReleased.innerText = movie.release_year;
-    description.innerText = movie.description;
-    watched.innerText = movie.watched;
+    title.textContent = movie.title;
+    yearReleased.textContent = movie.release_year;
+    description.textContent = movie.description;
+    watched.textContent = movie.watched;
 }
 
 fetch(url)
@@ -24,20 +30,14 @@ fetch(url)
         // movieImg = movielist[-1].image
         renderMovieInfo(movielist[0]);
         movielist.forEach((movie) => {
-            addImg(movie.image);
-            addEventListener('click', (e) => {
-                for (let i = 0; i < movielist.length; i++) {
-                    if (movielist[i].includes(e.target)) {
-                        renderMovieInfo(movielist[i]);
-                    }
-                }
-            })
+            addImg(movie);
         });
     });
 
 function addImg(value) {
-    const createImg = document.createElement("img");
-    createImg.src = value;
+    let createImg = document.createElement("img");
+    createImg.src = value.image;
+    createImg.addEventListener('click', () => renderMovieInfo(value))
     imgContainer.appendChild(createImg);
 }
 
